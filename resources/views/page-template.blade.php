@@ -5,6 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vertical Menu</title>
     <style>
+
+        /* Google icons */
+        @font-face 
+        {
+            font-family: 'Material Symbols Outlined';
+            font-style: normal;
+            font-weight: 400;
+            src: url(https://fonts.gstatic.com/s/materialsymbolsoutlined/v175/kJF1BvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oDMzByHX9rA6RzaxHMPdY43zj-jCxv3fzvRNU22ZXGJpEpjC_1v-p_4MrImHCIJIZrDCvHOej.woff2) format('woff2');
+        }
+
+        .material-symbols-outlined 
+        {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-smoothing: antialiased;
+        }
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -55,6 +81,29 @@
         .menu .selected a {
             background-color: #ccc; /* Selected item background color */
         }
+
+        .top-right-sidebar
+        {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+        }
+
+        .logout-button
+        {
+            color: black;
+        }
+
+        .logout-button span
+        {
+            font-size: 50px;
+        }
+
+        .logout-button span:hover
+        {
+            color: gray;
+            transition: 0.3s ease;
+        }
     </style>
 </head>
 <body>
@@ -76,6 +125,12 @@
 
 <div class="content">
     @yield('page-content')
+</div>
+
+<div class='top-right-sidebar'>
+    <a href="{{ route('logout') }}" class='logout-button'>
+        <span class="material-symbols-outlined">logout</span>
+    </a>
 </div>
 
 </body>
