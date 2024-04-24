@@ -24,8 +24,8 @@ class MyTracker extends View
             ->first();
 
         $now = Carbon::now();
-        $from_date = $request->get('from_date') ?? $now->startOfMonth()->format('Y-m-d');
-        $to_date = $request->get('to_date') ?? $now->endOfMonth()->format('Y-m-d');
+        $from_date = $request->get('from_date') ??($now->startOfMonth())->format('Y-m-d');
+        $to_date = $request->get('to_date') ?? Carbon::now()->format('Y-m-d');
         $user_id = (int) (Auth::user())->id;
 
         $rows = $this->getRows($from_date, $to_date, $user_id);

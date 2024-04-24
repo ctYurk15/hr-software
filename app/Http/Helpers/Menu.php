@@ -68,7 +68,7 @@ class Menu
                 'link' => route('holidays'),
                 'image' => asset('images/modules-icons/holidays.png'),
                 'route_name' => 'holidays',
-                'manager_page' => true,
+                'manager_page' => false,
             ],
         ];
     }
