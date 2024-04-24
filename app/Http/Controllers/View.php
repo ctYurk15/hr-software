@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Helpers\Menu;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 abstract class View extends Controller
 {
-    public function view() {}
+    public function view(Request $request) {}
 
     public function process(string $template_path, array $arguments = [])
     {

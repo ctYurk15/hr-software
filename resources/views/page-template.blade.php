@@ -3,11 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script src="{{asset('js/app.js')}}"></script>
+    <script src="{{asset('js/jquery.js')}}"></script>
     <title>Vertical Menu</title>
     <style>
 
         /* Google icons */
-        @font-face 
+        @font-face
         {
             font-family: 'Material Symbols Outlined';
             font-style: normal;
@@ -15,7 +18,7 @@
             src: url(https://fonts.gstatic.com/s/materialsymbolsoutlined/v175/kJF1BvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oDMzByHX9rA6RzaxHMPdY43zj-jCxv3fzvRNU22ZXGJpEpjC_1v-p_4MrImHCIJIZrDCvHOej.woff2) format('woff2');
         }
 
-        .material-symbols-outlined 
+        .material-symbols-outlined
         {
             font-family: 'Material Symbols Outlined';
             font-weight: normal;
@@ -134,6 +137,15 @@
 </div>
 
 </body>
+
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+</script>
+
 </html>
 
 
