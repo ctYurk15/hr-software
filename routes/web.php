@@ -11,6 +11,7 @@ use App\Http\Controllers\Views\MySicklist;
 use App\Http\Controllers\Views\TeamSicklist;
 use App\Http\Controllers\Views\Holidays;
 use App\Http\Controllers\TrackerAction;
+use App\Http\Controllers\Views\TrackerEntryModal;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,7 @@ Route::get('/dashboard', function () {
 Route::get('/my-tracker', [MyTracker::class, 'view'])->middleware(['auth'])->name('my-tracker');
 Route::get('/team-tracker', [TeamTracker::class, 'view'])->middleware(['auth'])->name('team-tracker');
 Route::post('/tracker-action/{action}', [TrackerAction::class, 'process'])->name('tracker-action');
+Route::get('/tracker-entry-modal', [TrackerEntryModal::class, 'view'])->name('tracker-entry-modal');
 
 Route::get('/my-personal', [MyPersonal::class, 'view'])->middleware(['auth'])->name('my-personal');
 Route::get('/team-personal', [TeamPersonal::class, 'view'])->middleware(['auth'])->name('team-personal');

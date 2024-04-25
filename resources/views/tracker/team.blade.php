@@ -84,6 +84,11 @@
         .date-range-form button:hover {
             background-color: #218838;
         }
+
+        .entry-row
+        {
+            cursor: pointer;
+        }
     </style>
     <div class="tracker">
         <h1 class="header-title">Team tracker data</h1>
@@ -119,7 +124,7 @@
                 @endphp
                 @if($entries != null)
                     @foreach($entries as $entry)
-                        <tr>
+                        <tr class="entry-row" data-entry-id="{{$entry->id}}">
                             @if($loop->first) <td rowspan="{{count($entries)}}">{{ $row['date'] }} </td> @endif
                             <td>{{$entry->employee->name}}</td>
                             <td>
@@ -151,8 +156,45 @@
             @endforeach
             </tbody>
         </table>
+
+        <!-- Modal -->
+        <div class="modal fade" id="trackerEventsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
     <script>
-        $(".select2").select2()
+        $(".select2").select2();
+
+        const tracker_events_modal = $("#trackerEventsModal");
+
+        $('.entry-row').click(function(){
+
+            const entry_id = $(this).attr('data-entry-id');
+
+            $.get('/tracker-entry-modal', {
+                tracker_entry_id: entry_id
+            }, function(data) {
+                tracker_events_modal.find('.modal-body').html(data);
+                tracker_events_modal.modal('show');
+            }).fail(function(response) {
+                console.error('Error:', response);
+            });
+
+        });
     </script>
 @endsection
