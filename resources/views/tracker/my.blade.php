@@ -97,6 +97,7 @@
             <input type="date" name="to_date" required value="{{$to_date}}">
             <button type="submit">Submit</button>
         </form>
+        <br>
 
         <table class="tracker-table">
             <thead>
@@ -109,21 +110,24 @@
             </thead>
             <tbody>
                 @foreach($rows as $row)
+                    @php
+                        $entries = $row['entries'];
+                    @endphp
                     <tr>
                         <td>{{ $row['date'] }}</td>
                         <td>
-                            @if($row['entry'] != null && $row['entry']->start_worktime != null)
-                                {{ date('H:i', strtotime($row['entry']->start_worktime)) }}
+                            @if($entries != null && $entries[0]->start_worktime != null)
+                                {{ date('H:i', strtotime($entries[0]->start_worktime)) }}
                             @endif
                         </td>
                         <td>
-                            @if($row['entry'] != null && $row['entry']->end_worktime != null)
-                                {{ date('H:i', strtotime($row['entry']->end_worktime)) }}
+                            @if($entries != null && $entries[0]->end_worktime != null)
+                                {{ date('H:i', strtotime($entries[0]->end_worktime)) }}
                             @endif
                         </td>
                         <td>
-                            @if($row['entry'] != null && $row['entry']->worked_time > 0)
-                                {{ $row['entry']->getWorktimeStr() }}
+                            @if($entries != null && $entries[0]->worked_time > 0)
+                                {{ $entries[0]->getWorktimeStr() }}
                             @endif
                         </td>
                     </tr>
