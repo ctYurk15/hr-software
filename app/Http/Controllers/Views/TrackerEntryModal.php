@@ -6,6 +6,7 @@ use App\Http\Controllers\View;
 use App\Http\Helpers\Tracker as TrackerHelper;
 use App\Models\TrackerEvent;
 use App\Models\TrackerEntry;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,11 +20,14 @@ class TrackerEntryModal extends View
         $entry = null;
         if($tracker_entry_id != null)
         {
-            $entry =TrackerEntry::with('events')->find($tracker_entry_id);
+            $entry = TrackerEntry::with('events')->find($tracker_entry_id);
         }
 
+        $users = User::all();
+
         return view('tracker.entry-events-modal', [
-            'entry' => $entry
+            'entry' => $entry,
+            'users' => $users
         ]);
     }
 }

@@ -29,11 +29,11 @@ class TrackerEntry extends Model
         return $this->hasMany(TrackerEvent::class, 'tracker_id');
     }
 
-    public static function firstOrCreateEntry()
+    public static function firstOrCreateEntry(int $user_id = null, string $date = null)
     {
-        $employee_id = (Auth::user())->id;
+        $employee_id = $user_id ?? (Auth::user())->id;
 
-        $today = now()->toDateString();
+        $today = $date ?? now()->toDateString();
 
         // Attempt to find or create the tracker entry of user in current day
         return TrackerEntry::firstOrCreate(

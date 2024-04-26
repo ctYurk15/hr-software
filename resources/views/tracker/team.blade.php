@@ -158,26 +158,64 @@
         </table>
 
         <!-- Modal -->
-        <div class="modal fade" id="trackerEventsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        ...
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                </div>
-            </div>
+        <div class="modal fade modal-lg" id="trackerEventsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
         </div>
 
     </div>
     <script>
+
+        function createEvent(data, entry_id)
+        {
+            $.post(`/tracker-action/add-manual`, data, function(response) {
+                loadEntry(entry_id);
+            }).fail(function(response) {
+                console.error('Error:', response.responseText);
+            });
+            //console.log('event will be created with this data', data);
+        }
+
+        function deleteEvent(event_id, entry_id)
+        {
+            $.post(`/tracker-action/delete`, {
+                event_id: event_id
+            }, function(data) {
+                loadEntry(entry_id);
+            }).fail(function(response) {
+                console.error('Error:', response.responseText);
+            });
+        }
+
+        function loadEntry(entry_id)
+        {
+            //get modal contents
+            $.get('/tracker-entry-modal', {
+                tracker_entry_id: entry_id
+            }, function(data) {
+                //show & fill modal
+                tracker_events_modal.html(data);
+                tracker_events_modal.modal('show');
+
+                //trigger modal events
+
+                $('#newEventForm').submit(function(event){
+                    event.preventDefault();
+
+                    const data = $(this).serializeArray();
+                    createEvent(data, entry_id)
+                });
+
+                $('.deleteEventBtn').on('click', function(){
+                    const event_id = $(this).closest('tr').attr('data-event-id');
+                    deleteEvent(event_id, entry_id)
+                });
+
+
+            }).fail(function(response) {
+                console.error('Error:', response);
+            });
+        }
+
         $(".select2").select2();
 
         const tracker_events_modal = $("#trackerEventsModal");
@@ -185,15 +223,7 @@
         $('.entry-row').click(function(){
 
             const entry_id = $(this).attr('data-entry-id');
-
-            $.get('/tracker-entry-modal', {
-                tracker_entry_id: entry_id
-            }, function(data) {
-                tracker_events_modal.find('.modal-body').html(data);
-                tracker_events_modal.modal('show');
-            }).fail(function(response) {
-                console.error('Error:', response);
-            });
+            loadEntry(entry_id);
 
         });
     </script>
