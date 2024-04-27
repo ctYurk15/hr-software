@@ -58,7 +58,7 @@
             padding: 10px 20px;
             font-size: 18px;
             cursor: pointer;
-            margin-bottom: 20px; /* Space between button and form */
+            margin-bottom: 20px;
         }
 
         .tracker-button:hover {
@@ -85,7 +85,7 @@
             background-color: #218838;
         }
 
-        .entry-row
+        .entry-row, .date-row
         {
             cursor: pointer;
         }
@@ -145,7 +145,7 @@
                         </tr>
                     @endforeach
                 @else
-                    <tr>
+                    <tr class="date-row" data-date="{{ $row['date'] }}">
                         <td>{{ $row['date'] }}</td>
                         <td></td>
                         <td></td>
@@ -165,32 +165,35 @@
     </div>
     <script>
 
-        function createEvent(data, entry_id)
+        function createEvent(data, entry_id, date)
         {
             $.post(`/tracker-action/add-manual`, data, function(response) {
-                loadEntry(entry_id);
+                if(entry_id == null) entry_id = response.entry_id;
+                loadEntry(entry_id, date);
             }).fail(function(response) {
                 console.error('Error:', response.responseText);
             });
             //console.log('event will be created with this data', data);
         }
 
-        function deleteEvent(event_id, entry_id)
+        function deleteEvent(event_id, entry_id, date)
         {
             $.post(`/tracker-action/delete`, {
                 event_id: event_id
             }, function(data) {
-                loadEntry(entry_id);
+                if(entry_id == null) entry_id = response.entry_id;
+                loadEntry(entry_id, date);
             }).fail(function(response) {
                 console.error('Error:', response.responseText);
             });
         }
 
-        function loadEntry(entry_id)
+        function loadEntry(entry_id = null, date = null)
         {
             //get modal contents
             $.get('/tracker-entry-modal', {
-                tracker_entry_id: entry_id
+                tracker_entry_id: entry_id,
+                date: date,
             }, function(data) {
                 //show & fill modal
                 tracker_events_modal.html(data);
@@ -202,12 +205,12 @@
                     event.preventDefault();
 
                     const data = $(this).serializeArray();
-                    createEvent(data, entry_id)
+                    createEvent(data, entry_id, date)
                 });
 
                 $('.deleteEventBtn').on('click', function(){
                     const event_id = $(this).closest('tr').attr('data-event-id');
-                    deleteEvent(event_id, entry_id)
+                    deleteEvent(event_id, entry_id, date)
                 });
 
 
@@ -221,10 +224,14 @@
         const tracker_events_modal = $("#trackerEventsModal");
 
         $('.entry-row').click(function(){
-
             const entry_id = $(this).attr('data-entry-id');
             loadEntry(entry_id);
-
         });
+
+        $('.date-row').click(function(){
+            const date = $(this).attr('data-date');
+            loadEntry(null, date);
+        });
+
     </script>
 @endsection

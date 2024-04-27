@@ -16,6 +16,7 @@ class TrackerEntryModal extends View
     public function view(Request $request)
     {
         $tracker_entry_id = $request->get('tracker_entry_id') ?? null;
+        $date = $request->get('date') ?? null;
 
         $entry = null;
         if($tracker_entry_id != null)
@@ -27,7 +28,8 @@ class TrackerEntryModal extends View
 
         return view('tracker.entry-events-modal', [
             'entry' => $entry,
-            'users' => $users
+            'users' => $users,
+            'date' => $date
         ]);
     }
 }

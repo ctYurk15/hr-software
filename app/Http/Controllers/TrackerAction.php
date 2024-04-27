@@ -94,20 +94,20 @@ class TrackerAction extends Controller
                 $type = $event->type;
                 $event->delete();
 
-                //update start/end_worktime columns
-                $entry = TrackerEntry::with(['events' => function($query) use ($type) {
+                //update start/end_worktime columns only, if no events like this exist
+                $tracker_entry = TrackerEntry::with(['events' => function($query) use ($type) {
                     $query->where('type', $type);
                 }])->find($tracker_entry_id);
 
-                if($entry->events->count() == 0)
+                if($tracker_entry->events->count() == 0)
                 {
                     $column_name = $type.'_worktime';
-                    $entry->$column_name = null;
-                    $entry->save();
+                    $tracker_entry->$column_name = null;
+                    $tracker_entry->save();
                 }
 
                 break;
         }
-        return ['success' => true];
+        return ['success' => true, 'entry_id' => $tracker_entry->id];
     }
 }

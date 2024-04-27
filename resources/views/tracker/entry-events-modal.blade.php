@@ -50,12 +50,16 @@
     <div class="modal-content">
         <div class="modal-header">
             <h1 class="modal-title fs-5" id="exampleModalLabel">
-                {{$entry->employee->name}}: {{ $entry->date->toDateString() }}
+                @if($entry != null)
+                    {{$entry->employee->name}}: {{ $entry->date->toDateString() }}
+                @else
+                    {{ $date }}
+                @endif
             </h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            @if($entry->events && $entry->events->count() > 0)
+            @if($entry != null && $entry->events && $entry->events->count() > 0)
                 <table border="1" cellspacing="0" cellpadding="10">
                     <thead>
                     <tr>
@@ -103,7 +107,7 @@
                         <div class="label-container">
                             <label for="date">Date:</label>
                         </div>
-                        <input type="date" name="date" required value="{{$entry != null ? $entry->date->toDateString() : date('Y-m-d')}}">
+                        <input type="date" name="date" required value="{{$entry != null ? $entry->date->toDateString() : $date}}">
                     </div>
 
                     <div class="form-field">
