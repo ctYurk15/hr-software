@@ -19,17 +19,33 @@ class TrackerEntryModal extends View
         $date = $request->get('date') ?? null;
 
         $entry = null;
+        $events_arr = [];
         if($tracker_entry_id != null)
         {
             $entry = TrackerEntry::with('events')->find($tracker_entry_id);
+
+            foreach($entry->events as $event)
+            {
+                $events_arr[$event->id] = [
+                    'user_id' => $entry->employee_id,
+                    'date' => $event->created_at->format('Y-m-d'),
+                    'time' => $event->created_at->format('H:i'),
+                    'type' => $event->type
+                ];
+            }
         }
 
         $users = User::all();
 
-        return view('tracker.entry-events-modal', [
+        $html = (string) view('tracker.entry-events-modal', [
             'entry' => $entry,
             'users' => $users,
             'date' => $date
         ]);
+
+        return [
+            'html' => $html,
+            'events' => $events_arr
+        ];
     }
 }

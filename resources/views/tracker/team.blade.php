@@ -195,8 +195,11 @@
                 tracker_entry_id: entry_id,
                 date: date,
             }, function(data) {
+
+                const events_data = data.events;
+
                 //show & fill modal
-                tracker_events_modal.html(data);
+                tracker_events_modal.html(data.html);
                 tracker_events_modal.modal('show');
 
                 //trigger modal events
@@ -206,6 +209,19 @@
 
                     const data = $(this).serializeArray();
                     createEvent(data, entry_id, date)
+                });
+
+                $('.editEventBtn').on('click', function(){
+                    const event_id = $(this).closest('tr').attr('data-event-id');
+                    const event_data = events_data[event_id];
+
+                    const form = $("#newEventForm");
+                    form.find('input[name=event_id]').val(event_id);
+                    form.find('select[name=user_id]').val(event_data.user_id);
+                    form.find('input[name=date]').val(event_data.date);
+                    form.find('input[name=time]').val(event_data.time);
+                    form.find('select[name=type]').val(event_data.type);
+                    console.log(event_data)
                 });
 
                 $('.deleteEventBtn').on('click', function(){

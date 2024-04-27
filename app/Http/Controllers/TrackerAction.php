@@ -57,10 +57,11 @@ class TrackerAction extends Controller
                 $date = (string) $request->get('date');
                 $time = (string) $request->get('time');
                 $type = (string) $request->get('type');
+                $event_id = $request->get('event_id');
 
                 $tracker_entry = TrackerEntry::firstOrCreateEntry($user_id, $date);
 
-                $new_event = new TrackerEvent();
+                $new_event = $event_id == null ? new TrackerEvent() : TrackerEvent::find($event_id);
                 $new_event->tracker_id = $tracker_entry->id;
                 $new_event->type = $type;
                 $new_event->created_at = $date.' '.$time;

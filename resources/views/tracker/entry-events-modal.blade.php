@@ -44,6 +44,11 @@
     .event-form button:hover {
         background-color: #0056b3;
     }
+
+    .hidden
+    {
+        display: none;
+    }
 </style>
 
 <div class="modal-dialog">
@@ -76,6 +81,9 @@
                             <td>
                                 <button class="btn btn-danger btn-sm deleteEventBtn">
                                     <span class="material-symbols-outlined">delete</span>
+                                </button>&nbsp;
+                                <button class="btn btn-warning btn-sm editEventBtn">
+                                    <span class="material-symbols-outlined">edit</span>
                                 </button>
                             </td>
                         </tr>
@@ -89,6 +97,8 @@
             <div class="form-container">
                 <h2>Add New Event</h2>
                 <form action="" method="POST" class="event-form" id="newEventForm">
+                    <input type="text" name="event_id" class="hidden">
+
                     <!--@csrf-->
                     <div class="form-field">
                         <div class="label-container">
