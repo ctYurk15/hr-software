@@ -28,7 +28,9 @@
 
 
     <h1>Users List</h1>
-
+    <div>
+        {{ $users->links('partials.pagination') }}
+    </div>
     <form method="GET" action="{{ url('team-personal') }}">
         <table border="1">
             <thead>

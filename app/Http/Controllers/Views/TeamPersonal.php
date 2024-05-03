@@ -60,7 +60,7 @@ class TeamPersonal extends View
             }
         }
 
-        $users = $query->get();
+        $users = $query->paginate(10);
 
         $current_user = Auth::user();
 
