@@ -66,8 +66,8 @@
             ] as $key => $value)
                 <tr><td>{{ $key }}</td><td>{{ $value }}</td></tr>
             @endforeach
-            @if ($user->role === 'manager')
-                <tr><td colspan="2"><a href=" route('users.edit', $user->id) ">Edit</a></td></tr>
+            @if ($current_user->role === 'manager')
+                <tr><td colspan="2"><a href="{{route('edit-personal', $user->id)}}">Edit</a></td></tr>
             @endif
             </tbody>
         </table>

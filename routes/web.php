@@ -13,6 +13,7 @@ use App\Http\Controllers\Views\Holidays;
 use App\Http\Controllers\TrackerAction;
 use App\Http\Controllers\Views\TrackerEntryModal;
 use App\Http\Controllers\Views\DetailsPersonal;
+use App\Http\Controllers\Views\EditPersonal;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +42,7 @@ Route::get('/tracker-entry-modal', [TrackerEntryModal::class, 'view'])->name('tr
 Route::get('/my-personal', [MyPersonal::class, 'view'])->middleware(['auth'])->name('my-personal');
 Route::get('/team-personal', [TeamPersonal::class, 'view'])->middleware(['auth'])->name('team-personal');
 Route::get('/details-personal/{user}', [DetailsPersonal::class, 'view'])->middleware(['auth'])->name('details-personal');
+Route::get('/edit-personal/{user?}', [EditPersonal::class, 'view'])->middleware(['auth'])->name('edit-personal');
 
 Route::get('/my-vacation', [MyVacation::class, 'view'])->middleware(['auth'])->name('my-vacation');
 Route::get('/team-vacation', [TeamVacation::class, 'view'])->middleware(['auth'])->name('team-vacation');
