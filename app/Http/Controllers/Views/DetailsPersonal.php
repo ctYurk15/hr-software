@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Views;
 
 use App\Http\Controllers\View;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class MyPersonal extends View
+class DetailsPersonal extends View
 {
-    public function view(Request $request)
+    public function view(Request $request, int $user_id = 0)
     {
-        $user = Auth::user();
+        $user = User::find($user_id);
         return $this->process('personal.single', [
             'user' => $user
         ]);
