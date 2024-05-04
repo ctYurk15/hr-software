@@ -11,11 +11,6 @@
         }
 
         .tracker-button {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 18px;
             cursor: pointer;
             display: block;
             width: 200px;
@@ -26,10 +21,6 @@
         {
             margin: 0 auto 20px;
             width: fit-content
-        }
-
-        .tracker-button:hover {
-            background-color: #0056b3;
         }
 
         .tracker-table {
@@ -51,20 +42,6 @@
             background-color: #f9f9f9;
         }
 
-        .tracker-button {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 18px;
-            cursor: pointer;
-            margin-bottom: 20px; /* Space between button and form */
-        }
-
-        .tracker-button:hover {
-            background-color: #0056b3;
-        }
-
         .date-range-form input[type="date"] {
             padding: 8px;
             margin-right: 10px;
@@ -74,11 +51,6 @@
 
         .date-range-form button {
             padding: 8px 16px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
         }
 
         .date-range-form button:hover {
@@ -88,14 +60,14 @@
     <div class="tracker">
         <h1 class="header-title">My tracker data</h1>
 
-        <button class="tracker-button" id="trackerBtn">
+        <button class="tracker-button btn btn-primary" id="trackerBtn">
             @if($last_event == null || ($last_event != null && $last_event->type == 'end')) Start @else Stop @endif Tracker
         </button>
 
         <form class="date-range-form" action="" method="GET">
             <input type="date" name="from_date" required value="{{$from_date}}">
             <input type="date" name="to_date" required value="{{$to_date}}">
-            <button type="submit">Submit</button>
+            <button type="submit" class="btn btn-success">Submit</button>
         </form>
         <br>
 

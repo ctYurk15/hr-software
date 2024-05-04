@@ -10,26 +10,10 @@
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
 
-        .tracker-button {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 18px;
-            cursor: pointer;
-            display: block;
-            width: 200px;
-            margin: 0 auto 20px;
-        }
-
         .header-title
         {
             margin: 0 auto 20px;
             width: fit-content
-        }
-
-        .tracker-button:hover {
-            background-color: #0056b3;
         }
 
         .tracker-table {
@@ -51,20 +35,6 @@
             background-color: #f9f9f9;
         }
 
-        .tracker-button {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 18px;
-            cursor: pointer;
-            margin-bottom: 20px;
-        }
-
-        .tracker-button:hover {
-            background-color: #0056b3;
-        }
-
         .date-range-form input[type="date"] {
             padding: 8px;
             margin-right: 10px;
@@ -74,11 +44,6 @@
 
         .date-range-form button {
             padding: 8px 16px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
         }
 
         .date-range-form button:hover {
@@ -103,7 +68,7 @@
                     </option>
                 @endforeach
             </select>
-            <button type="submit">Submit</button>
+            <button type="submit" class="btn btn-success">Submit</button>
         </form>
         <br>
 

@@ -43,28 +43,9 @@
     @if ($user)
         <table class="user-details-table">
             <tbody>
-            <tr><th>Attribute</th><th>Value</th></tr>
-            <!-- All rows for user attributes as previously defined -->
-            @foreach ([
-                'Name' => $user->name,
-                'First Name' => $user->firstname,
-                'Last Name' => $user->lastname,
-                'Role' => $user->role,
-                'Birthdate' => $user->birthdate,
-                'Email' => $user->email,
-                'Phone' => $user->phone,
-                'Region' => $user->region,
-                'Start Work Date' => $user->start_work_date,
-                'Monday Working Time' => $user->working_time_monday,
-                'Tuesday Working Time' => $user->working_time_tuesday,
-                'Wednesday Working Time' => $user->working_time_wednesday,
-                'Thursday Working Time' => $user->working_time_thursday,
-                'Friday Working Time' => $user->working_time_friday,
-                'Saturday Working Time' => $user->working_time_saturday,
-                'Sunday Working Time' => $user->working_time_sunday,
-                'Current Year Overtime' => $user->current_year_overtime
-            ] as $key => $value)
-                <tr><td>{{ $key }}</td><td>{{ $value }}</td></tr>
+            <tr><th>Field</th><th>Value</th></tr>
+            @foreach ($fields as $name => $data)
+                <tr><td>{{ $data['title'] }}</td><td>{{ $user->$name }}</td></tr>
             @endforeach
             @if ($current_user->role === 'manager')
                 <tr><td colspan="2"><a href="{{route('edit-personal', $user->id)}}">Edit</a></td></tr>

@@ -13,9 +13,11 @@ class DetailsPersonal extends View
     {
         $user = $user_id != null ? User::find($user_id) : null;
         $current_user = Auth::user();
+        $fields = User::getFields('detail');
 
         return $this->process('personal.single', [
             'user' => $user,
+            'fields' => $fields,
             'current_user' => $current_user
         ]);
     }

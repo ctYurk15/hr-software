@@ -35,28 +35,16 @@
         <table border="1">
             <thead>
             <tr>
-                @php
-                    $fields = [
-                        'name' => 'text',
-                        'firstname' => 'text',
-                        'lastname' => 'text',
-                        'role' => 'text',
-                        'birthdate' => 'date',
-                        'email' => 'text',
-                        'phone' => 'text',
-                        'region' => 'text',
-                        'start_work_date' => 'date'
-                    ];
-                @endphp
                 @foreach ($list_fields as $field => $data)
                     <th>
+                        {{$data['title']}}<br>
                         <input type="{{ $data['type'] }}"
                                name="{{ $field }}"
-                               placeholder="Filter by {{ ucfirst(str_replace('_', ' ', $field)) }}"
+                               placeholder="Filter by {{ $data['title'] }}"
                                value="{{ request($field) }}">
                     </th>
                 @endforeach
-                <th><button type="submit">Filter</button></th>
+                <th><button type="submit" class="btn btn-success">Filter</button></th>
             </tr>
             </thead>
             <tbody>

@@ -33,18 +33,6 @@
         display: block;
     }
 
-    .event-form button {
-        padding: 8px 16px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        cursor: pointer;
-    }
-
-    .event-form button:hover {
-        background-color: #0056b3;
-    }
-
     .hidden
     {
         display: none;
@@ -138,7 +126,7 @@
                     </div>
 
                     <div class="form-field">
-                        <button type="submit">Add Event</button>
+                        <button type="submit" class="btn btn-primary">Add Event</button>
                     </div>
                 </form>
             </div>
