@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
-use App\Models\TrackerEntry;
 use App\Models\TrackerEvent;
 use Illuminate\Http\Request;
 
 use App\Models\User;
+use App\Models\TrackerEntry;
 use Illuminate\Validation\Rule;
 
 class PersonalAction extends Controller
@@ -57,5 +57,17 @@ class PersonalAction extends Controller
         $user->save();
 
         return redirect()->route('details-personal', $user->id);
+    }
+
+    public function delete(Request $request, int $user_id)
+    {
+        $user = User::find($user_id);
+        if($user != null)
+        {
+            TrackerEntry::where('employee_id', $user_id)->delete();
+
+            $user->delete();
+        }
+        return ['success' => true];
     }
 }

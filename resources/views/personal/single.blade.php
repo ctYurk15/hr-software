@@ -36,11 +36,31 @@
         .user-details-table a:hover {
             background-color: #0056b3;
         }
+
+        .action-button-text
+        {
+            font-size: 1.5em;
+        }
+
+        .action-button-container a
+        {
+            color: white !important;
+        }
     </style>
 
     <h1 style="text-align: center;">User Details</h1>
 
     @if ($user)
+        <div class="d-flex justify-content-center action-button-container">
+            <a href="{{route('edit-personal', $user->id)}}" class="btn btn-warning">
+                <span class="material-symbols-outlined">edit</span>&nbsp;
+                <span class="action-button-text">Edit entry</span>
+            </a>&nbsp;
+            <a href="#" class="btn btn-danger" id="deleteUserBtn" data-user-id="{{$user->id}}">
+                <span class="material-symbols-outlined">delete</span>&nbsp;
+                <span class="action-button-text">Delete entry</span>
+            </a>
+        </div>
         <table class="user-details-table">
             <tbody>
             <tr><th>Field</th><th>Value</th></tr>
@@ -55,4 +75,27 @@
     @else
         <p>User not found.</p>
     @endif
+
+    <script>
+        $(document).ready(function(){
+
+            $('#deleteUserBtn').on('click', function(){
+
+                const user_id = $(this).attr('data-user-id');
+                if(confirm('Are you sure?'))
+                {
+                    console.log('user to be deleted', user_id)
+                    $.post(`/delete-personal/${user_id}`, {
+                        user_id: user_id
+                    }, function(data) {
+                        window.location = '/team-personal'
+                    }).fail(function(response) {
+                        console.error('Error:', response.responseText);
+                    });
+                }
+
+            });
+
+        });
+    </script>
 @endsection
