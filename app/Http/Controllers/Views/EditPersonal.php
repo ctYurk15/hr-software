@@ -10,9 +10,13 @@ class EditPersonal extends View
 {
     public function view(Request $request, int $user_id = 0)
     {
+
         $user = User::find($user_id);
+        $fields = User::getFields('edit');
+
         return $this->process('personal.edit', [
-            'user' => $user
+            'user' => $user,
+            'fields' => $fields
         ]);
     }
 }

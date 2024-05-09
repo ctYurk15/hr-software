@@ -27,7 +27,12 @@
     </style>
 
 
-    <h1>Users List</h1>
+    <h1>
+        Users List
+        <a href="{{route('edit-personal')}}" class="btn btn-success">
+            &nbsp;+&nbsp;
+        </a>
+    </h1>
     <div>
         {{ $users->links('partials.pagination') }}
     </div>
