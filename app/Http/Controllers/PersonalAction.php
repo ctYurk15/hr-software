@@ -70,4 +70,39 @@ class PersonalAction extends Controller
         }
         return ['success' => true];
     }
+
+    public function changePassword(Request $request, int $user_id)
+    {
+        $result = ['success' => true];
+        $user = User::find($user_id);
+
+        if($user != null)
+        {
+            $password = $request->get('password');
+            $password_confirmation = $request->get('password_confirmation');
+
+            if($password == $password_confirmation)
+            {
+                if(strlen($password) >= 8)
+                {
+                    $password = bcrypt($password);
+                    $user->password = $password;
+                    $user->save();
+                }
+                else
+                {
+                    $result['success'] = false;
+                    $result['error'] = 'Password is too short';
+                }
+            }
+            else
+            {
+                $result['success'] = false;
+                $result['error'] = 'Passwords do not match';
+            }
+        }
+
+        return $result;
+    }
+
 }

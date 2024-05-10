@@ -47,6 +47,7 @@ Route::get('/edit-personal/{user?}', [EditPersonal::class, 'view'])->middleware(
 Route::post('/edit-personal/{user?}', [EditPersonal::class, 'view'])->middleware(['auth'])->name('edit-personal');
 Route::post('/save-personal', [PersonalAction::class, 'save'])->middleware(['auth'])->name('save-personal');
 Route::post('/delete-personal/{user_id}', [PersonalAction::class, 'delete'])->middleware(['auth'])->name('delete-personal');
+Route::post('/change-personal-password/{user_id}', [PersonalAction::class, 'changePassword'])->middleware(['auth'])->name('change-personal-password');
 
 Route::get('/my-vacation', [MyVacation::class, 'view'])->middleware(['auth'])->name('my-vacation');
 Route::get('/team-vacation', [TeamVacation::class, 'view'])->middleware(['auth'])->name('team-vacation');

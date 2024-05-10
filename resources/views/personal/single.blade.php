@@ -42,39 +42,78 @@
             font-size: 1.5em;
         }
 
-        .action-button-container a
+        .action-button-container a, .action-button-container button
         {
             color: white !important;
+        }
+
+        .hidden
+        {
+            display: none;
         }
     </style>
 
     <h1 style="text-align: center;">User Details</h1>
 
     @if ($user)
-        <div class="d-flex justify-content-center action-button-container">
-            <a href="{{route('edit-personal', $user->id)}}" class="btn btn-warning">
-                <span class="material-symbols-outlined">edit</span>&nbsp;
-                <span class="action-button-text">Edit entry</span>
-            </a>&nbsp;
-            <a href="#" class="btn btn-danger" id="deleteUserBtn" data-user-id="{{$user->id}}">
-                <span class="material-symbols-outlined">delete</span>&nbsp;
-                <span class="action-button-text">Delete entry</span>
-            </a>
-        </div>
+        @if ($current_user->role === 'manager')
+            <div class="d-flex justify-content-center action-button-container">
+                <a href="{{route('edit-personal', $user->id)}}" class="btn btn-warning">
+                    <span class="material-symbols-outlined">edit</span>&nbsp;
+                    <span class="action-button-text">Edit entry</span>
+                </a>&nbsp;
+                <button class="btn btn-danger" id="deleteUserBtn" data-user-id="{{$user->id}}">
+                    <span class="material-symbols-outlined">delete</span>&nbsp;
+                    <span class="action-button-text">Delete entry</span>
+                </button>&nbsp;
+                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+                    <span class="material-symbols-outlined">key</span>&nbsp;
+                    <span class="action-button-text">Change password</span>
+                </button>
+            </div>
+        @endif
         <table class="user-details-table">
             <tbody>
             <tr><th>Field</th><th>Value</th></tr>
             @foreach ($fields as $name => $data)
                 <tr><td>{{ $data['title'] }}</td><td>{{ $user->$name }}</td></tr>
             @endforeach
-            @if ($current_user->role === 'manager')
-                <tr><td colspan="2"><a href="{{route('edit-personal', $user->id)}}">Edit</a></td></tr>
-            @endif
             </tbody>
         </table>
+
+        <!-- Modal -->
+        <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="changePasswordModalLabel">Change password of {{$user->name}}</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="changePasswordForm" data-user-id="{{$user->id}}">
+                        <div class="modal-body">
+                            <label>
+                                New password:<br>
+                                <input class="form-control" type="password" name="password" required>
+                            </label><br>
+                            <label>
+                                Repeat new password:<br>
+                                <input class="form-control" type="password" name="password_confirmation" required>
+                            </label><br><br>
+                            <div class="alert alert-danger hidden" id="passwordErrorDiv">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     @else
         <p>User not found.</p>
     @endif
+
 
     <script>
         $(document).ready(function(){
@@ -84,16 +123,40 @@
                 const user_id = $(this).attr('data-user-id');
                 if(confirm('Are you sure?'))
                 {
-                    console.log('user to be deleted', user_id)
                     $.post(`/delete-personal/${user_id}`, {
                         user_id: user_id
                     }, function(data) {
-                        window.location = '/team-personal'
+                        window.location = '/team-personal';
                     }).fail(function(response) {
                         console.error('Error:', response.responseText);
                     });
                 }
 
+            });
+
+            const password_error_div = $("#passwordErrorDiv");
+            $('#changePasswordForm').submit(function(event){
+                event.preventDefault();
+
+                const fields = $(this).serializeArray();
+                const user_id = $(this).attr('data-user-id');
+                password_error_div.addClass('hidden');
+
+                $.post(`/change-personal-password/${user_id}`, fields, function(data) {
+
+                    if(data.success == true)
+                    {
+                        alert('Success!')
+                    }
+                    else
+                    {
+                        password_error_div.removeClass('hidden');
+                        password_error_div.html(data.error);
+                    }
+
+                }).fail(function(response) {
+                    console.error('Error:', response.responseText);
+                });
             });
 
         });
