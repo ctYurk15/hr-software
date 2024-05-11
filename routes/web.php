@@ -28,11 +28,11 @@ use App\Http\Controllers\PersonalAction;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return redirect()->route('login');
 })->middleware(['auth'])->name('dashboard');
 
 Route::get('/my-tracker', [MyTracker::class, 'view'])->middleware(['auth'])->name('my-tracker');

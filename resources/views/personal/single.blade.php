@@ -62,10 +62,12 @@
                     <span class="material-symbols-outlined">edit</span>&nbsp;
                     <span class="action-button-text">Edit entry</span>
                 </a>&nbsp;
+                @if($current_user->id != $user->id)
                 <button class="btn btn-danger" id="deleteUserBtn" data-user-id="{{$user->id}}">
                     <span class="material-symbols-outlined">delete</span>&nbsp;
                     <span class="action-button-text">Delete entry</span>
                 </button>&nbsp;
+                @endif
                 <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
                     <span class="material-symbols-outlined">key</span>&nbsp;
                     <span class="action-button-text">Change password</span>
