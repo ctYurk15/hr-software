@@ -67,23 +67,35 @@
         button[type="submit"] {
             margin-left: 10px; /* Space between the last filter and the button */
         }
+
+        .hidden
+        {
+            display: none;
+        }
     </style>
 
     <div>
-        <h1>Vacation Schedule</h1>
+        <h1>
+            Vacation Schedule
+            @if($current_user->role == 'manager')
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createVacationModal">
+                    &nbsp;+&nbsp;
+                </button>
+            @endif
+        </h1>
         <form class="filter-form" method="GET">
             <div>
                 <label for="from_date">From Date:</label>
-                <input type="date" id="from_date" name="from_date" value="{{ request('from_date') }}">
+                <input type="date" id="from_date" name="from_date" class="form-control" value="{{ request('from_date') }}">
             </div>
             <div>
                 <label for="to_date">To Date:</label>
-                <input type="date" id="to_date" name="to_date" value="{{ request('to_date') }}">
+                <input type="date" id="to_date" name="to_date" class="form-control" value="{{ request('to_date') }}">
             </div>
             @if($current_user->role == 'manager')
                 <div>
                     <label for="employee_id">Employee:</label>
-                    <select id="employee_id" name="employee_id">
+                    <select id="employee_id" name="employee_id" class="form-control">
                         <option value="">All</option>
                         @foreach ($users as $user)
                             <option value="{{ $user->id }}" {{ request('employee_id') == $user->id ? 'selected' : '' }}>
@@ -118,4 +130,77 @@
         @endforeach
         </tbody>
     </table>
+
+    <div class="modal fade" id="createVacationModal" tabindex="-1" aria-labelledby="createVacationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="createVacationModalLabel">New vacation entry</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="createVacationForm">
+                    <div class="modal-body">
+                        <label>
+                            From date:<br>
+                            <input type="date" name="from_date" class="form-control" required>
+                        </label><br>
+                        <label>
+                            To date:<br>
+                            <input type="date" name="to_date" class="form-control" required>
+                        </label><br>
+                        @if($current_user->role == 'manager')
+                            <label>
+                                Employee:<br>
+                                <select id="employee_id" name="employee_id" class="form-control">
+                                    @foreach ($users as $user)
+                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                    @endforeach
+                                </select>
+                            </label><br>
+                        @endif
+                        <br>
+                        <div class="alert alert-danger hidden" id="createVacationErrorDiv">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+
+            const error_div = $("#createVacationErrorDiv");
+            $('#createVacationForm').submit(function(event){
+                event.preventDefault();
+
+                const fields = $(this).serializeArray();
+                //const user_id = $(this).attr('data-user-id');
+                error_div.addClass('hidden');
+                console.log(fields)
+
+                $.post(`/save-vacation`, fields, function(data) {
+
+                    if(data.success == true)
+                    {
+                        alert('Success!');
+                        window.location.reload();
+                    }
+                    else
+                    {
+                        error_div.removeClass('hidden');
+                        error_div.html(data.error);
+                    }
+
+                }).fail(function(response) {
+                    console.error('Error:', response.responseText);
+                });
+            });
+
+        });
+    </script>
 @endsection
