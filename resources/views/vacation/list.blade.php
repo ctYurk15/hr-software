@@ -80,19 +80,24 @@
                 <label for="to_date">To Date:</label>
                 <input type="date" id="to_date" name="to_date" value="{{ request('to_date') }}">
             </div>
-            <div>
-                <label for="employee_id">Employee:</label>
-                <select id="employee_id" name="employee_id">
-                    <option value="">All</option>
-                    @foreach ($users as $user)
-                        <option value="{{ $user->id }}" {{ request('employee_id') == $user->id ? 'selected' : '' }}>
-                            {{ $user->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
+            @if($current_user->role == 'manager')
+                <div>
+                    <label for="employee_id">Employee:</label>
+                    <select id="employee_id" name="employee_id">
+                        <option value="">All</option>
+                        @foreach ($users as $user)
+                            <option value="{{ $user->id }}" {{ request('employee_id') == $user->id ? 'selected' : '' }}>
+                                {{ $user->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            @endif
             <button type="submit" class="btn btn-success">Filter</button>
         </form>
+    </div>
+    <div>
+        {{ $vacations->links('partials.pagination') }}
     </div>
 
     <table class="vacation-table">

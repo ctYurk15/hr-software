@@ -5,7 +5,7 @@ use App\Http\Controllers\Views\MyTracker;
 use App\Http\Controllers\Views\TeamTracker;
 use App\Http\Controllers\Views\MyPersonal;
 use App\Http\Controllers\Views\TeamPersonal;
-use App\Http\Controllers\Views\MyVacation;
+use App\Http\Controllers\Views\VacationsList;
 use App\Http\Controllers\Views\TeamVacation;
 use App\Http\Controllers\Views\MySicklist;
 use App\Http\Controllers\Views\TeamSicklist;
@@ -49,8 +49,7 @@ Route::post('/save-personal', [PersonalAction::class, 'save'])->middleware(['aut
 Route::post('/delete-personal/{user_id}', [PersonalAction::class, 'delete'])->middleware(['auth'])->name('delete-personal');
 Route::post('/change-personal-password/{user_id}', [PersonalAction::class, 'changePassword'])->middleware(['auth'])->name('change-personal-password');
 
-Route::get('/my-vacation', [MyVacation::class, 'view'])->middleware(['auth'])->name('my-vacation');
-Route::get('/team-vacation', [TeamVacation::class, 'view'])->middleware(['auth'])->name('team-vacation');
+Route::get('/vacations', [VacationsList::class, 'view'])->middleware(['auth'])->name('my-vacation');
 
 Route::get('/my-sicklist', [MySicklist::class, 'view'])->middleware(['auth'])->name('my-sicklist');
 Route::get('/team-sicklist', [TeamSicklist::class, 'view'])->middleware(['auth'])->name('team-sicklist');

@@ -8,7 +8,7 @@ use App\Models\Vacation;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-class MyVacation extends View
+class VacationsList extends View
 {
     public function view(Request $request)
     {
@@ -28,11 +28,18 @@ class MyVacation extends View
             $query->where('employee_id', $request->employee_id);
         }
 
-        $vacations = $query->get();
+        //only managers can see all vacations
+        if($current_user->role != 'manager')
+        {
+            $query->where('employee_id', $current_user->id);
+        }
+
+        $vacations = $query->paginate(10);
         $users = User::all(); // For dropdown list
 
         return $this->process('vacation.list', [
             'vacations' => $vacations,
+            'current_user' => $current_user,
             'users' => $users
         ]);
     }

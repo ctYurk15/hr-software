@@ -36,18 +36,11 @@ class Menu
                 'manager_page' => true,
             ],
             [
-                'title' => 'My Vacations',
+                'title' => 'Vacations',
                 'link' => route('my-vacation'),
                 'image' => asset('images/modules-icons/my-vacation.png'),
                 'route_name' => 'my-vacation',
                 'manager_page' => false,
-            ],
-            [
-                'title' => 'Team Vacations',
-                'link' => route('team-vacation'),
-                'image' => asset('images/modules-icons/team-vacation.png'),
-                'route_name' => 'team-vacation',
-                'manager_page' => true,
             ],
             [
                 'title' => 'My Sicklist',
