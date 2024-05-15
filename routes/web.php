@@ -50,7 +50,9 @@ Route::post('/delete-personal/{user_id}', [PersonalAction::class, 'delete'])->mi
 Route::post('/change-personal-password/{user_id}', [PersonalAction::class, 'changePassword'])->middleware(['auth'])->name('change-personal-password');
 
 Route::get('/vacations', [VacationsList::class, 'view'])->middleware(['auth'])->name('my-vacation');
+Route::get('/get-vacation/{vacation_id}', [VacationAction::class, 'get'])->middleware(['auth'])->name('get-vacation');
 Route::post('/save-vacation', [VacationAction::class, 'save'])->middleware(['auth'])->name('save-vacation');
+Route::post('/delete-vacation/{vacation_id}', [VacationAction::class, 'delete'])->middleware(['auth'])->name('delete-vacation');
 
 Route::get('/my-sicklist', [MySicklist::class, 'view'])->middleware(['auth'])->name('my-sicklist');
 Route::get('/team-sicklist', [TeamSicklist::class, 'view'])->middleware(['auth'])->name('team-sicklist');

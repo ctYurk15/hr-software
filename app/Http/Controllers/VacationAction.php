@@ -39,4 +39,30 @@ class VacationAction extends Controller
         return $result;
     }
 
+    public function get(Request $request, int $vacation_id)
+    {
+        $vacation = Vacation::find($vacation_id);
+        if($vacation != null)
+        {
+            return [
+                'success' => true,
+                'from_date' => $vacation->from_date->format('Y-m-d'),
+                'to_date' => $vacation->to_date->format('Y-m-d'),
+                'employee_id' => $vacation->employee_id,
+            ];
+        }
+
+        return ['success' => false];
+    }
+
+    public function delete(Request $request, int $vacation_id)
+    {
+        $vacation = Vacation::find($vacation_id);
+        if($vacation != null)
+        {
+            $vacation->delete();
+        }
+        return ['success' => true];
+    }
+
 }

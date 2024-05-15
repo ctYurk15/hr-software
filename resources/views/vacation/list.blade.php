@@ -78,7 +78,7 @@
         <h1>
             Vacation Schedule
             @if($current_user->role == 'manager')
-                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createVacationModal">
+                <button class="btn btn-success" id="createVacationBtn" data-bs-toggle="modal" data-bs-target="#saveVacationModal">
                     &nbsp;+&nbsp;
                 </button>
             @endif
@@ -115,6 +115,7 @@
     <table class="vacation-table">
         <thead>
         <tr>
+            <th></th>
             <th>Employee</th>
             <th>From Date</th>
             <th>To Date</th>
@@ -123,6 +124,16 @@
         <tbody>
         @foreach ($vacations as $vacation)
             <tr>
+                <td data-vacation-id="{{$vacation->id}}">
+                    @if($current_user->role == 'manager')
+                        <button class="btn btn-danger btn-sm deleteVacationBtn">
+                            <span class="material-symbols-outlined">delete</span>
+                        </button>&nbsp;
+                        <button class="btn btn-warning btn-sm editVacationBtn">
+                            <span class="material-symbols-outlined">edit</span>
+                        </button>
+                    @endif
+                </td>
                 <td data-label="Employee">{{ $vacation->user->name }}</td>
                 <td data-label="From Date">{{ $vacation->from_date->format('Y-m-d') }}</td>
                 <td data-label="To Date">{{ $vacation->to_date->format('Y-m-d') }}</td>
@@ -131,14 +142,14 @@
         </tbody>
     </table>
 
-    <div class="modal fade" id="createVacationModal" tabindex="-1" aria-labelledby="createVacationModalLabel" aria-hidden="true">
+    <div class="modal fade" id="saveVacationModal" tabindex="-1" aria-labelledby="saveVacationModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="createVacationModalLabel">New vacation entry</h1>
+                    <h1 class="modal-title fs-5" id="saveVacationModalLabel">New vacation entry</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="createVacationForm">
+                <form id="saveVacationForm">
                     <div class="modal-body">
                         <label>
                             From date:<br>
@@ -175,13 +186,21 @@
         $(document).ready(function(){
 
             const error_div = $("#createVacationErrorDiv");
-            $('#createVacationForm').submit(function(event){
+            const save_vacation_form = $('#saveVacationForm');
+
+            let current_vacation_edit = null;
+
+            $('#createVacationBtn').on('click', function(){ current_vacation_edit = null; });
+
+            save_vacation_form.submit(function(event){
                 event.preventDefault();
 
                 const fields = $(this).serializeArray();
-                //const user_id = $(this).attr('data-user-id');
+                if(current_vacation_edit != null)
+                {
+                    fields.push({name: 'id', value: current_vacation_edit});
+                }
                 error_div.addClass('hidden');
-                console.log(fields)
 
                 $.post(`/save-vacation`, fields, function(data) {
 
@@ -199,6 +218,49 @@
                 }).fail(function(response) {
                     console.error('Error:', response.responseText);
                 });
+            });
+
+            $(".editVacationBtn").on('click', function(){
+
+                const vacation_id = $(this).parent().attr('data-vacation-id');
+
+                $.get(`/get-vacation/${vacation_id}`, {
+                    vacation_id: vacation_id
+                }, function(data) {
+                    if(data.success)
+                    {
+                        current_vacation_edit = vacation_id;
+
+                        save_vacation_form.find('input[name=from_date]').val(data.from_date);
+                        save_vacation_form.find('input[name=to_date]').val(data.to_date);
+                        save_vacation_form.find('select[name=employee_id]').val(data.employee_id);
+
+                        $("#saveVacationModal").modal('show');
+                    }
+                }).fail(function(response) {
+                    console.error('Error:', response.responseText);
+                });
+
+            });
+
+            $(".deleteVacationBtn").on('click', function(){
+
+                const vacation_id = $(this).parent().attr('data-vacation-id');
+                if(confirm('Are you sure?'))
+                {
+                    $.post(`/delete-vacation/${vacation_id}`, {
+                        vacation_id: vacation_id
+                    }, function(data) {
+                        if(data.success)
+                        {
+                            alert('Success!');
+                            window.location.reload();
+                        }
+                    }).fail(function(response) {
+                        console.error('Error:', response.responseText);
+                    });
+                }
+
             });
 
         });
