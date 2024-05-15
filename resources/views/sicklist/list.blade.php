@@ -76,7 +76,7 @@
 
     <div>
         <h1>
-            Vacation Schedule
+            Sicklists
             @if($current_user->role == 'manager')
                 <button class="btn btn-success" id="createVacationBtn" data-bs-toggle="modal" data-bs-target="#saveVacationModal">
                     &nbsp;+&nbsp;
@@ -109,7 +109,7 @@
         </form>
     </div>
     <div>
-        {{ $vacations->links('partials.pagination') }}
+        {{ $sicklists->links('partials.pagination') }}
     </div>
 
     <table class="vacation-table">
@@ -119,13 +119,14 @@
             <th>Employee</th>
             <th>From Date</th>
             <th>To Date</th>
+            <th>Description</th>
             <th>Days</th>
         </tr>
         </thead>
         <tbody>
-        @foreach ($vacations as $vacation)
+        @foreach ($sicklists as $sicklist)
             <tr>
-                <td data-vacation-id="{{$vacation->id}}">
+                <td data-vacation-id="{{$sicklist->id}}">
                     @if($current_user->role == 'manager')
                         <button class="btn btn-danger btn-sm deleteVacationBtn">
                             <span class="material-symbols-outlined">delete</span>
@@ -135,10 +136,11 @@
                         </button>
                     @endif
                 </td>
-                <td data-label="Employee">{{ $vacation->user->name }}</td>
-                <td data-label="From Date">{{ $vacation->from_date->format('Y-m-d') }}</td>
-                <td data-label="To Date">{{ $vacation->to_date->format('Y-m-d') }}</td>
-                <td data-label="Days">{{ $vacation->calculateWeekdays() }}</td>
+                <td data-label="Employee">{{ $sicklist->user->name }}</td>
+                <td data-label="From Date">{{ $sicklist->from_date->format('Y-m-d') }}</td>
+                <td data-label="To Date">{{ $sicklist->to_date->format('Y-m-d') }}</td>
+                <td data-label="Description">{{ $sicklist->description }}</td>
+                <td data-label="Days">{{ $sicklist->calculateWeekdays() }}</td>
             </tr>
         @endforeach
         </tbody>

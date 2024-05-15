@@ -2,18 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class Vacation extends Model
+class Sicklist extends Model
 {
-    protected $fillable = ['from_date', 'to_date', 'employee_id'];
+    use HasFactory;
+
+    protected $fillable = ['from_date', 'to_date', 'employee_id', 'description'];
 
     // Add the $dates property
     protected $dates = ['from_date', 'to_date'];
 
     /**
-     * Get the user that owns the vacation.
+     * Get the user that is associated with the sicklist.
      */
     public function user()
     {

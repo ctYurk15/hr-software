@@ -43,18 +43,11 @@ class Menu
                 'manager_page' => false,
             ],
             [
-                'title' => 'My Sicklist',
-                'link' => route('my-sicklist'),
+                'title' => 'Sicklists',
+                'link' => route('sicklists'),
                 'image' => asset('images/modules-icons/my-sicklist.png'),
-                'route_name' => 'my-sicklist',
+                'route_name' => 'sicklists',
                 'manager_page' => false,
-            ],
-            [
-                'title' => 'Team Sicklist',
-                'link' => route('team-sicklist'),
-                'image' => asset('images/modules-icons/team-sicklist.png'),
-                'route_name' => 'team-sicklist',
-                'manager_page' => true,
             ],
             [
                 'title' => 'Holidays',
