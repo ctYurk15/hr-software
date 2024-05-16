@@ -126,12 +126,12 @@
         <tbody>
         @foreach ($sicklists as $sicklist)
             <tr>
-                <td data-vacation-id="{{$sicklist->id}}">
+                <td data-sicklist-id="{{$sicklist->id}}">
                     @if($current_user->role == 'manager')
-                        <button class="btn btn-danger btn-sm deleteVacationBtn">
+                        <button class="btn btn-danger btn-sm deleteSicklistBtn">
                             <span class="material-symbols-outlined">delete</span>
                         </button>&nbsp;
-                        <button class="btn btn-warning btn-sm editVacationBtn">
+                        <button class="btn btn-warning btn-sm editSicklistBtn">
                             <span class="material-symbols-outlined">edit</span>
                         </button>
                     @endif
@@ -153,7 +153,7 @@
                     <h1 class="modal-title fs-5" id="saveVacationModalLabel">New vacation entry</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="saveVacationForm">
+                <form id="saveSicklistForm">
                     <div class="modal-body">
                         <label>
                             From date:<br>
@@ -173,8 +173,12 @@
                                 </select>
                             </label><br>
                         @endif
+                        <label>
+                            Description:<br>
+                            <textarea required name="description" class="form-control"></textarea>
+                        </label><br>
                         <br>
-                        <div class="alert alert-danger hidden" id="createVacationErrorDiv">
+                        <div class="alert alert-danger hidden" id="createSicklistErrorDiv">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -189,24 +193,24 @@
     <script>
         $(document).ready(function(){
 
-            const error_div = $("#createVacationErrorDiv");
-            const save_vacation_form = $('#saveVacationForm');
+            const error_div = $("#createSicklistErrorDiv");
+            const save_sicklist_form = $('#saveSicklistForm');
 
-            let current_vacation_edit = null;
+            let current_sicklist_edit = null;
 
-            $('#createVacationBtn').on('click', function(){ current_vacation_edit = null; });
+            $('#createVacationBtn').on('click', function(){ current_sicklist_edit = null; });
 
-            save_vacation_form.submit(function(event){
+            save_sicklist_form.submit(function(event){
                 event.preventDefault();
 
                 const fields = $(this).serializeArray();
-                if(current_vacation_edit != null)
+                if(current_sicklist_edit != null)
                 {
-                    fields.push({name: 'id', value: current_vacation_edit});
+                    fields.push({name: 'id', value: current_sicklist_edit});
                 }
                 error_div.addClass('hidden');
 
-                $.post(`/save-vacation`, fields, function(data) {
+                $.post(`/save-sicklist`, fields, function(data) {
 
                     if(data.success == true)
                     {
@@ -224,20 +228,21 @@
                 });
             });
 
-            $(".editVacationBtn").on('click', function(){
+            $(".editSicklistBtn").on('click', function(){
 
-                const vacation_id = $(this).parent().attr('data-vacation-id');
+                const sicklist_id = $(this).parent().attr('data-sicklist-id');
 
-                $.get(`/get-vacation/${vacation_id}`, {
-                    vacation_id: vacation_id
+                $.get(`/get-sicklist/${sicklist_id}`, {
+                    sicklist_id: sicklist_id
                 }, function(data) {
                     if(data.success)
                     {
-                        current_vacation_edit = vacation_id;
+                        current_sicklist_edit = sicklist_id;
 
-                        save_vacation_form.find('input[name=from_date]').val(data.from_date);
-                        save_vacation_form.find('input[name=to_date]').val(data.to_date);
-                        save_vacation_form.find('select[name=employee_id]').val(data.employee_id);
+                        save_sicklist_form.find('input[name=from_date]').val(data.from_date);
+                        save_sicklist_form.find('input[name=to_date]').val(data.to_date);
+                        save_sicklist_form.find('select[name=employee_id]').val(data.employee_id);
+                        save_sicklist_form.find('textarea[name=description]').html(data.description);
 
                         $("#saveVacationModal").modal('show');
                     }
@@ -247,13 +252,13 @@
 
             });
 
-            $(".deleteVacationBtn").on('click', function(){
+            $(".deleteSicklistBtn").on('click', function(){
 
-                const vacation_id = $(this).parent().attr('data-vacation-id');
+                const sicklist_id = $(this).parent().attr('data-sicklist-id');
                 if(confirm('Are you sure?'))
                 {
-                    $.post(`/delete-vacation/${vacation_id}`, {
-                        vacation_id: vacation_id
+                    $.post(`/delete-sicklist/${sicklist_id}`, {
+                        sicklist_id: sicklist_id
                     }, function(data) {
                         if(data.success)
                         {

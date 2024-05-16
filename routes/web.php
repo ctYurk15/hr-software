@@ -14,6 +14,7 @@ use App\Http\Controllers\Views\EditPersonal;
 use App\Http\Controllers\TrackerAction;
 use App\Http\Controllers\PersonalAction;
 use App\Http\Controllers\VacationAction;
+use App\Http\Controllers\SicklistAction;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +55,9 @@ Route::post('/save-vacation', [VacationAction::class, 'save'])->middleware(['aut
 Route::post('/delete-vacation/{vacation_id}', [VacationAction::class, 'delete'])->middleware(['auth'])->name('delete-vacation');
 
 Route::get('/sicklists', [SicklistsList::class, 'view'])->middleware(['auth'])->name('sicklists');
+Route::get('/get-sicklist/{sicklist_id}', [SicklistAction::class, 'get'])->middleware(['auth'])->name('get-sicklist');
+Route::post('/save-sicklist', [SicklistAction::class, 'save'])->middleware(['auth'])->name('save-sicklist');
+Route::post('/delete-sicklist/{sicklist_id}', [SicklistAction::class, 'delete'])->middleware(['auth'])->name('delete-sicklist');
 
 Route::get('/holidays', [Holidays::class, 'view'])->middleware(['auth'])->name('holidays');
 
