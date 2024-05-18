@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Helpers\DatesCalculator;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 
@@ -26,18 +27,6 @@ class Vacation extends Model
      */
     public function calculateWeekdays()
     {
-        $fromDate = Carbon::parse($this->from_date);
-        $toDate = Carbon::parse($this->to_date);
-
-        $days = 0;
-
-        while ($fromDate->lte($toDate)) {
-            if (!$fromDate->isWeekend()) {
-                $days++;
-            }
-            $fromDate->addDay();
-        }
-
-        return $days;
+        return DatesCalculator::calculateWeekdays($this);
     }
 }

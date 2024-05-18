@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Helpers\DatesCalculator;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -29,18 +30,6 @@ class Sicklist extends Model
      */
     public function calculateWeekdays()
     {
-        $fromDate = Carbon::parse($this->from_date);
-        $toDate = Carbon::parse($this->to_date);
-
-        $days = 0;
-
-        while ($fromDate->lte($toDate)) {
-            if (!$fromDate->isWeekend()) {
-                $days++;
-            }
-            $fromDate->addDay();
-        }
-
-        return $days;
+        return DatesCalculator::calculateWeekdays($this);
     }
 }

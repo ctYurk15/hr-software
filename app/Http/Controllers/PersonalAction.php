@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Sicklist;
+use App\Models\Vacation;
 use Illuminate\Support\Facades\Auth;
 use App\Models\TrackerEvent;
 use Illuminate\Http\Request;
@@ -65,6 +67,8 @@ class PersonalAction extends Controller
         if($user != null)
         {
             TrackerEntry::where('employee_id', $user_id)->delete();
+            Vacation::where('employee_id', $user_id)->delete();
+            Sicklist::where('employee_id', $user_id)->delete();
 
             $user->delete();
         }
