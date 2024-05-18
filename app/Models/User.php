@@ -42,6 +42,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function country()
+    {
+        return $this->belongsTo(Country::class, 'country_id');
+    }
+
     private static array $fields = [
         'name' => [
             'operator' => 'like',
@@ -106,12 +111,13 @@ class User extends Authenticatable
             'title' => 'Phone',
             'views' => ['list', 'detail', 'edit'],
         ],
-        'region' => [
-            'operator' => 'like',
-            'type' => 'text',
-            'title' => 'Region',
-            'views' => ['list', 'detail', 'edit'],
-            'options' => ['US', 'UA'],
+        'country_id' => [
+            'operator' => 'exact',
+            'type' => 'relation',
+            'relation_prop' => 'country',
+            'relation_model' => Country::class,
+            'title' => 'Country',
+            'views' => ['detail', 'edit'],
         ],
         'start_work_date' => [
             'operator' => 'exact',

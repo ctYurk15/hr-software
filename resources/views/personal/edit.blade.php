@@ -90,6 +90,18 @@
                                     >{{$option}}</option>
                                 @endforeach
                             </select>
+                        @elseif($data['type'] == 'relation')
+                            @php
+                                $model = $data['relation_model'];
+                                $options = $model::all();
+                            @endphp
+                            <select name="fields[{{$name}}]" @if(isset($data['required']) && $data['required']) required @endif>
+                                @foreach($options as $option)
+                                    <option value="{{$option->id}}"
+                                            @if($user != null && $user->$name == $option->id) selected @endif
+                                    >{{$option->name}}</option>
+                                @endforeach
+                            </select>
                         @else
                             <input type="{{$data['type']}}"
                                    name="fields[{{$name}}]"

@@ -30,4 +30,10 @@ class CountryAction extends Controller
         $country->update($validatedData);
         return response()->json($country, 200);
     }
+
+    public function destroy(Country $country)
+    {
+        $country->delete();
+        return response()->json(null, 204);
+    }
 }

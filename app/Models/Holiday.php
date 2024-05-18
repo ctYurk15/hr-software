@@ -21,6 +21,7 @@ class Holiday extends Model
         }
 
         $url = "https://date.nager.at/api/v3/PublicHolidays/{$year}/{$countryCode}";
+        echo $url;
         $response = Http::get($url);
 
         if ($response->successful()) {

@@ -38,9 +38,9 @@
     <form action="{{ url('holidays') }}" method="GET">
         <label for="country_code">Select Country:</label>
         <select id="country_code" name="country_code" onchange="this.form.submit()">
-            @foreach ($countries as $code => $name)
-                <option value="{{ $code }}" {{ $countryCode == $code ? 'selected' : '' }}>
-                    {{ $name }}
+            @foreach ($countries as $country)
+                <option value="{{ $country->country_code }}" {{ $country->country_code == $countryCode ? 'selected' : '' }}>
+                    {{ $country->name }}
                 </option>
             @endforeach
         </select>

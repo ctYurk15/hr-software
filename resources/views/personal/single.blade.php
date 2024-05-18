@@ -78,7 +78,20 @@
             <tbody>
             <tr><th>Field</th><th>Value</th></tr>
             @foreach ($fields as $name => $data)
-                <tr><td>{{ $data['title'] }}</td><td>{{ $user->$name }}</td></tr>
+                <tr>
+                    <td>{{ $data['title'] }}</td>
+                    <td>
+                        @if($data['type'] == 'relation')
+                            @php
+                                $prop = $data['relation_prop'];
+                                $value = $user->$prop != null ? $user->$prop->name : '';
+                            @endphp
+                            {{$value}}
+                        @else
+                            {{ $user->$name }}
+                        @endif
+                    </td>
+                </tr>
             @endforeach
             </tbody>
         </table>
