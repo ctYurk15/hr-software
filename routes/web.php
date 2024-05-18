@@ -11,10 +11,12 @@ use App\Http\Controllers\Views\Holidays;
 use App\Http\Controllers\Views\TrackerEntryModal;
 use App\Http\Controllers\Views\DetailsPersonal;
 use App\Http\Controllers\Views\EditPersonal;
+use App\Http\Controllers\Views\Countries;
 use App\Http\Controllers\TrackerAction;
 use App\Http\Controllers\PersonalAction;
 use App\Http\Controllers\VacationAction;
 use App\Http\Controllers\SicklistAction;
+use App\Http\Controllers\CountryAction;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,5 +62,10 @@ Route::post('/save-sicklist', [SicklistAction::class, 'save'])->middleware(['aut
 Route::post('/delete-sicklist/{sicklist_id}', [SicklistAction::class, 'delete'])->middleware(['auth'])->name('delete-sicklist');
 
 Route::get('/holidays', [Holidays::class, 'view'])->middleware(['auth'])->name('holidays');
+
+Route::get('/countries', [Countries::class, 'view'])->middleware(['auth'])->name('countries');
+Route::post('/countries', [CountryAction::class, 'store'])->name('countries.store');
+Route::put('/countries/{country}', [CountryAction::class, 'update'])->name('countries.update');
+Route::delete('/countries/{country}', [CountryAction::class, 'destroy'])->name('countries.destroy');
 
 require __DIR__.'/auth.php';

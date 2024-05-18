@@ -56,6 +56,13 @@ class Menu
                 'route_name' => 'holidays',
                 'manager_page' => false,
             ],
+            [
+                'title' => 'Countries',
+                'link' => route('countries'),
+                'image' => asset('images/modules-icons/countries.png'),
+                'route_name' => 'countries',
+                'manager_page' => true,
+            ],
         ];
     }
 }
