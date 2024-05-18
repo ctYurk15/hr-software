@@ -125,7 +125,13 @@ class User extends Authenticatable
             'title' => 'Start work',
             'views' => ['list', 'detail'],
         ],
-        'working_time_monday' => [
+        'address' => [
+            'operator' => 'exact',
+            'type' => 'textarea',
+            'title' => 'Address',
+            'views' => ['edit', 'detail'],
+        ],
+        /*'working_time_monday' => [
             'operator' => 'exact',
             'type' => 'number',
             'title' => 'Monday Working Time',
@@ -172,7 +178,7 @@ class User extends Authenticatable
             'type' => 'number',
             'title' => 'Current Year Overtime',
             'views' => ['detail'],
-        ],
+        ],*/
     ];
 
     public static function getFields(string $view)

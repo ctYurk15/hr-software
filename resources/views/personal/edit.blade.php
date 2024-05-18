@@ -102,6 +102,11 @@
                                     >{{$option->name}}</option>
                                 @endforeach
                             </select>
+                        @elseif($data['type'] == 'textarea')
+                            <textarea type="{{$data['type']}}"
+                                   name="fields[{{$name}}]"
+                                   @if(isset($data['required']) && $data['required']) required @endif
+                            >@if($user != null){{$user->$name}}@endif</textarea>
                         @else
                             <input type="{{$data['type']}}"
                                    name="fields[{{$name}}]"
