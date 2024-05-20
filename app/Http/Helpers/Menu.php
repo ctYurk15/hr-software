@@ -63,6 +63,14 @@ class Menu
                 'route_name' => 'countries',
                 'manager_page' => true,
             ],
+            [
+                'title' => 'Edit personal',
+                'link' => route('edit-personal'),
+                'image' => asset('images/modules-icons/my-personal.png'),
+                'route_name' => 'edit-personal',
+                'manager_page' => true,
+                'hidden' => true
+            ],
         ];
     }
 }

@@ -37,7 +37,7 @@
     <h1>Holidays for {{$current_user->region}}</h1>
     <form action="{{ url('holidays') }}" method="GET">
         <label for="country_code">Select Country:</label>
-        <select id="country_code" name="country_code" onchange="this.form.submit()">
+        <select id="country_code" name="country_code" onchange="this.form.submit()" class="form-control" style="width: 300px; display: inline-block">
             @foreach ($countries as $country)
                 <option value="{{ $country->country_code }}" {{ $country->country_code == $countryCode ? 'selected' : '' }}>
                     {{ $country->name }}

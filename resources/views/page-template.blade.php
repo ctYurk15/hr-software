@@ -13,7 +13,7 @@
     <script src="{{asset('libs/select2/select2.js')}}"></script>
     <script src="{{asset('libs/bootstrap/bootstrap.js')}}"></script>
 
-    <title>Vertical Menu</title>
+    <title>{{$route_title}}</title>
 
     <style>
 
@@ -122,7 +122,7 @@
 <div class="menu">
     <ul>
         @foreach ($menu as $item)
-            @if(!$item['manager_page'] || ($item['manager_page'] && $user_role == 'manager'))
+            @if((!$item['manager_page'] || ($item['manager_page'] && $user_role == 'manager')) && !isset($item['hidden']))
                 <li @if($item['route_name'] == $route_name) class="selected" @endif>
                     <a href="{{ $item['link'] }}">
                         <img src="{{ $item['image'] }}" alt="Image 1">

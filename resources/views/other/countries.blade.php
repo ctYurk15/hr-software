@@ -17,6 +17,17 @@
         tr:nth-child(even) {
             background-color: #f9f9f9;
         }
+
+        input.form-control
+        {
+            display: inline-block;
+            width: 250px;
+        }
+
+        .btn
+        {
+            color: white;
+        }
     </style>
 
     <h1>Countries List</h1>
@@ -25,9 +36,9 @@
     <form id="countryForm">
         @csrf
         <input type="hidden" id="countryId">
-        <input type="text" id="name" placeholder="Country Name">
-        <input type="text" id="country_code" placeholder="Country Code">
-        <button type="submit">Save</button>
+        <input type="text" id="name" placeholder="Country Name" class="form-control">
+        <input type="text" id="country_code" placeholder="Country Code" class="form-control">
+        <button type="submit" class="btn btn-success">Save</button>
     </form>
 
     <table>
@@ -44,8 +55,8 @@
                 <td>{{ $country->name }}</td>
                 <td>{{ $country->country_code }}</td>
                 <td>
-                    <button onclick="editCountry({{ $country->id }})">Edit</button>
-                    <button onclick="deleteCountry({{ $country->id }})">Delete</button>
+                    <button onclick="editCountry({{ $country->id }})" class="btn btn-warning">Edit</button>
+                    <button onclick="deleteCountry({{ $country->id }})" class="btn btn-danger">Delete</button>
                 </td>
             </tr>
         @endforeach

@@ -20,11 +20,15 @@ abstract class View extends Controller
         }
 
         $menu = Menu::get();
+        $route_name = Route::currentRouteName();
+        $key = array_search($route_name, array_column($menu, 'route_name'));
+        $route_title = $menu[$key]['title'];
 
         $arguments = array_merge($arguments, [
             'user_role' => $role,
             'menu' => $menu,
-            'route_name' => Route::currentRouteName(),
+            'route_name' => $route_name,
+            'route_title' => $route_title,
         ]);
 
         return view($template_path, $arguments);
