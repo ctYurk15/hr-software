@@ -13,10 +13,10 @@ class DatesCalculator
         $toDate = Carbon::parse($record->to_date);
 
         $user = $record->user()->with('country')->first(); // Fetch user with country relationship loaded
-        $country_code = $user->country->country_code;
+        $country_id = $user->country_id;
 
         // Fetch holidays for the given country and year
-        $holidays = Holiday::where('country_code', $country_code)
+        $holidays = Holiday::where('country_id', $country_id)
             ->whereYear('date', $fromDate->year)
             ->pluck('date')->map(function ($date) {
                 return Carbon::parse($date)->format('Y-m-d');

@@ -36,10 +36,10 @@
 
     <h1>Holidays for {{$current_user->region}}</h1>
     <form action="{{ url('holidays') }}" method="GET">
-        <label for="country_code">Select Country:</label>
-        <select id="country_code" name="country_code" onchange="this.form.submit()" class="form-control" style="width: 300px; display: inline-block">
+        <label for="country_id">Select Country:</label>
+        <select id="country_id" name="country_id" onchange="this.form.submit()" class="form-control" style="width: 300px; display: inline-block">
             @foreach ($countries as $country)
-                <option value="{{ $country->country_code }}" {{ $country->country_code == $countryCode ? 'selected' : '' }}>
+                <option value="{{ $country->id }}" {{ $country->id == $countryId ? 'selected' : '' }}>
                     {{ $country->name }}
                 </option>
             @endforeach
